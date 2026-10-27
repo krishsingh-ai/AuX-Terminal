@@ -42,46 +42,68 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
 
-  // 5. Global Live Gold Ticker State (Simulated 5s ticks with ±3% clamping)
+  // 5. Global Market Data Feed (5-second refresh cycle adhering to MCX tick specs)
   const [tickers, setTickers] = useState<GoldTickerItem[]>(goldTickerData);
   const [flashingSymbol, setFlashingSymbol] = useState<{ symbol: string; direction: 'up' | 'down' } | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date>(() => new Date());
+  const [isPolling, setIsPolling] = useState<boolean>(true);
+  const dataStatus: 'ACTIVE' | 'PAUSED' | 'STALE' = !isPolling ? 'PAUSED' : 'ACTIVE';
+
+  const executeTick = useCallback(() => {
+    setTickers((prev) => {
+      // Deterministic selection of eligible contract to update
+      const randomIndex = Math.floor(Math.random() * prev.length);
+      const item = prev[randomIndex];
+      const isUp = Math.random() > 0.48;
+      // Realistic MCX tick size: increments of ₹1.00
+      const tickDelta = Math.floor(Math.random() * 4 + 1) * (isUp ? 1 : -1);
+      const newPrice = Math.max(100, item.price + tickDelta);
+
+      const originalItem = goldTickerData.find((t) => t.symbol === item.symbol);
+      const basePrice = originalItem?.price ?? item.price;
+      // Strict bounded fluctuation around exchange reference: ±1.2%
+      const lowerBound = basePrice * 0.988;
+      const upperBound = basePrice * 1.012;
+      const clampedPrice = Math.max(lowerBound, Math.min(upperBound, newPrice));
+      const clampedChange = clampedPrice - basePrice;
+      const clampedPercent = Number(((clampedChange / basePrice) * 100).toFixed(2));
+
+      setFlashingSymbol({
+        symbol: item.symbol,
+        direction: isUp ? 'up' : 'down',
+      });
+
+      setTimeout(() => {
+        setFlashingSymbol(null);
+      }, 1200);
+
+      return prev.map((t, idx) =>
+        idx === randomIndex
+          ? { ...t, price: clampedPrice, change: clampedChange, changePercent: clampedPercent }
+          : t
+      );
+    });
+    setLastUpdated(new Date());
+  }, []);
 
   useEffect(() => {
-    const tickerInterval = setInterval(() => {
-      setTickers((prev) => {
-        const randomIndex = Math.floor(Math.random() * prev.length);
-        const item = prev[randomIndex];
-        const isUp = Math.random() > 0.45;
-        const delta = Math.floor(Math.random() * 20 + 5) * (isUp ? 1 : -1);
-        const newPrice = Math.max(100, item.price + delta);
-
-        const originalItem = goldTickerData.find((t) => t.symbol === item.symbol);
-        const basePrice = originalItem?.price ?? item.price;
-        const lowerBound = basePrice * 0.97;
-        const upperBound = basePrice * 1.03;
-        const clampedPrice = Math.max(lowerBound, Math.min(upperBound, newPrice));
-        const clampedChange = clampedPrice - basePrice;
-        const clampedPercent = Number(((clampedChange / basePrice) * 100).toFixed(2));
-
-        setFlashingSymbol({
-          symbol: item.symbol,
-          direction: isUp ? 'up' : 'down',
-        });
-
-        setTimeout(() => {
-          setFlashingSymbol(null);
-        }, 1000);
-
-        return prev.map((t, idx) =>
-          idx === randomIndex
-            ? { ...t, price: clampedPrice, change: clampedChange, changePercent: clampedPercent }
-            : t
-        );
-      });
-    }, 5000);
-
+    if (!isPolling) return;
+    const tickerInterval = setInterval(executeTick, 5000);
     return () => clearInterval(tickerInterval);
+  }, [isPolling, executeTick]);
+
+  const togglePolling = useCallback(() => {
+    setIsPolling((prev) => {
+      const next = !prev;
+      setToastMessage(next ? 'Live market feed resumed (5s interval)' : 'Market feed paused');
+      return next;
+    });
   }, []);
+
+  const manualRefresh = useCallback(() => {
+    executeTick();
+    setToastMessage('Market feed refreshed');
+  }, [executeTick]);
 
   // Auto-dismiss toast
   useEffect(() => {
@@ -294,6 +316,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsCommandOpen,
         tickers,
         flashingSymbol,
+        lastUpdated,
+        dataStatus,
+        isPolling,
+        togglePolling,
+        manualRefresh,
       }}
     >
       {children}

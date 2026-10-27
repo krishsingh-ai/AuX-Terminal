@@ -29,6 +29,11 @@ export interface AuthContextType {
   setIsCommandOpen: React.Dispatch<React.SetStateAction<boolean>>;
   tickers: GoldTickerItem[];
   flashingSymbol: { symbol: string; direction: 'up' | 'down' } | null;
+  lastUpdated: Date;
+  dataStatus: 'ACTIVE' | 'PAUSED' | 'STALE';
+  isPolling: boolean;
+  togglePolling: () => void;
+  manualRefresh: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

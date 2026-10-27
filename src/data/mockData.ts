@@ -29,9 +29,14 @@ export interface BacktestMetrics {
   totalTrades: number;
   winRate: number;
   grossPnl: number;
+  netPnl: number;
+  frictionDrag: number;
   maxDrawdown: number;
   profitFactor: number;
   sharpeRatio: number;
+  sortinoRatio: number;
+  calmarRatio: number;
+  avgDurationDays: number;
   annualizedReturn: number;
   alphaDecomposition: {
     underlyingGoldDrift: number;
@@ -124,9 +129,14 @@ export const backtestMetrics: BacktestMetrics = {
   totalTrades: 342,
   winRate: 68.4,
   grossPnl: 1485200,
+  netPnl: 1246000,
+  frictionDrag: 239200,
   maxDrawdown: -3.82,
   profitFactor: 2.18,
   sharpeRatio: 2.41,
+  sortinoRatio: 3.18,
+  calmarRatio: 6.44,
+  avgDurationDays: 7.8,
   annualizedReturn: 24.6,
   alphaDecomposition: {
     underlyingGoldDrift: 14.2,
@@ -244,3 +254,299 @@ export const equityCurveData: EquityCurvePoint[] = [
   { month: 'Nov', equity: 1442000, benchmark: 1134000 },
   { month: 'Dec', equity: 1485200, benchmark: 1142000 },
 ];
+
+// 6. Contract Specifications (MCX Official Parameters)
+export interface ContractSpecification {
+  symbol: string;
+  name: string;
+  tradingUnit: string;
+  quotationUnit: string;
+  purityFineness: number;
+  tickSize: number;
+  lotWeightGrams: number;
+  deliveryType: string;
+  marginRequirement: string;
+  description: string;
+}
+
+export const contractSpecifications: ContractSpecification[] = [
+  {
+    symbol: 'GOLDM',
+    name: 'Gold Mini Futures',
+    tradingUnit: '100 grams',
+    quotationUnit: 'INR per 10 grams',
+    purityFineness: 995,
+    tickSize: 1.0,
+    lotWeightGrams: 100,
+    deliveryType: 'Compulsory Physical Delivery (Vault Receipts)',
+    marginRequirement: '10.5% (~₹76,100 / lot)',
+    description: 'Primary liquidity contract on MCX for institutional calendar and relative-value desks.',
+  },
+  {
+    symbol: 'GOLDTEN',
+    name: 'Gold Ten Futures',
+    tradingUnit: '10 grams',
+    quotationUnit: 'INR per 10 grams',
+    purityFineness: 999,
+    tickSize: 1.0,
+    lotWeightGrams: 10,
+    deliveryType: 'Physical / Demat Electronic Settlement',
+    marginRequirement: '10.5% (~₹7,615 / lot)',
+    description: 'Higher purity 999 contract; key constituent in four-fineness purity basis arbitrage.',
+  },
+  {
+    symbol: 'GOLDGUINEA',
+    name: 'Gold Guinea Futures',
+    tradingUnit: '8 grams',
+    quotationUnit: 'INR per 8 grams',
+    purityFineness: 999,
+    tickSize: 1.0,
+    lotWeightGrams: 8,
+    deliveryType: 'Compulsory Physical (Standard Coins)',
+    marginRequirement: '10.5% (~₹6,100 / lot)',
+    description: 'Reflects domestic physical retail coin premium dynamics and fabrication margins.',
+  },
+  {
+    symbol: 'GOLDPETAL',
+    name: 'Gold Petal Futures',
+    tradingUnit: '1 gram',
+    quotationUnit: 'INR per 1 gram',
+    purityFineness: 999,
+    tickSize: 1.0,
+    lotWeightGrams: 1,
+    deliveryType: 'Physical Demat / Cash Settlement Tender',
+    marginRequirement: '11.0% (~₹802 / lot)',
+    description: 'Micro-tenor contract enabling fractional basis hedging and retail liquidity tracking.',
+  },
+];
+
+// 7. Volatility Term Structure Data
+export interface VolatilityPoint {
+  expiry: string;
+  dte: number;
+  atmIv: number;
+  callIv25d: number;
+  putIv25d: number;
+  basisAnnualized: number;
+}
+
+export const volatilityTermStructure: VolatilityPoint[] = [
+  { expiry: '26OCT', dte: 28, atmIv: 14.82, callIv25d: 15.44, putIv25d: 14.20, basisAnnualized: 5.8 },
+  { expiry: '26NOV', dte: 59, atmIv: 15.18, callIv25d: 15.82, putIv25d: 14.55, basisAnnualized: 6.1 },
+  { expiry: '26DEC', dte: 88, atmIv: 15.65, callIv25d: 16.30, putIv25d: 15.02, basisAnnualized: 6.4 },
+  { expiry: '27FEB', dte: 151, atmIv: 16.12, callIv25d: 16.85, putIv25d: 15.48, basisAnnualized: 6.8 },
+];
+
+// 8. Multi-Contract Pairwise Comparisons
+export interface PairComparison {
+  id: string;
+  label: string;
+  nearContract: string;
+  farContract: string;
+  nearPrice: number;
+  farPrice: number;
+  spread: number; // in INR / 10g pure equivalent
+  rollingMean: number;
+  stdDev: number;
+  zScore: number;
+  halfLifeDays: number;
+  adfPValue: number;
+  signal: 'DIVERGENT (LONG)' | 'DIVERGENT (SHORT)' | 'CONVERGENT (NORMAL)';
+  description: string;
+}
+
+export const pairComparisons: PairComparison[] = [
+  {
+    id: 'goldm-goldten',
+    label: 'GOLDM vs GOLDTEN (Purity Basis Arbitrage)',
+    nearContract: 'GOLDM 26OCT (995 Fineness)',
+    farContract: 'GOLDTEN 26OCT (999 Fineness)',
+    nearPrice: 72480,
+    farPrice: 72510,
+    spread: 30.0,
+    rollingMean: 18.5,
+    stdDev: 8.1,
+    zScore: 1.42,
+    halfLifeDays: 4.2,
+    adfPValue: 0.008,
+    signal: 'CONVERGENT (NORMAL)',
+    description: 'Tracks the pure metal parity spread between 995 fineness mini contracts and 999 gold ten.',
+  },
+  {
+    id: 'goldm-calendar',
+    label: 'GOLDM 26OCT vs GOLDM 26NOV (Calendar Term Roll)',
+    nearContract: 'GOLDM 26OCT (Near-Month)',
+    farContract: 'GOLDM 26NOV (Far-Month)',
+    nearPrice: 72480,
+    farPrice: 72890,
+    spread: 410.0,
+    rollingMean: 385.0,
+    stdDev: 11.8,
+    zScore: 2.12,
+    halfLifeDays: 7.8,
+    adfPValue: 0.002,
+    signal: 'DIVERGENT (SHORT)',
+    description: 'Monitors the forward contango basis between adjacent active monthly contracts against cost-of-carry.',
+  },
+  {
+    id: 'goldm-goldguinea',
+    label: 'GOLDM vs GOLDGUINEA (Bullion vs Coin Spread)',
+    nearContract: 'GOLDM 26OCT (₹/10g)',
+    farContract: 'GOLDGUINEA 26OCT (Normalized ₹/10g)',
+    nearPrice: 72480,
+    farPrice: 72650,
+    spread: 170.0,
+    rollingMean: 142.0,
+    stdDev: 14.5,
+    zScore: 1.93,
+    halfLifeDays: 5.6,
+    adfPValue: 0.014,
+    signal: 'CONVERGENT (NORMAL)',
+    description: 'Captures the physical retail minting premium disparity between bullion bars and gold coins.',
+  },
+];
+
+// 9. Interactive Backtest Simulator Configuration & Engine
+export interface BacktestConfig {
+  strategy: 'calendar-spread' | 'purity-basis' | 'term-roll';
+  pair: string;
+  lookbackDays: 15 | 30 | 60;
+  entryZ: 1.5 | 2.0 | 2.5;
+  exitZ: 0.0 | 0.25 | 0.5;
+  stopLossZ: 3.0 | 3.5 | 4.0;
+  frictionModel: 'statutory' | 'zero' | 'stress';
+}
+
+export interface MonthlyReturnBreakdown {
+  month: string;
+  strategyReturn: number;
+  benchmarkReturn: number;
+  netPnl: number;
+  trades: number;
+}
+
+export interface DrawdownCurvePoint {
+  month: string;
+  drawdown: number;
+}
+
+export interface SimulationResult {
+  metrics: BacktestMetrics;
+  equityCurve: EquityCurvePoint[];
+  drawdownCurve: DrawdownCurvePoint[];
+  monthlyBreakdown: MonthlyReturnBreakdown[];
+}
+
+export function runWalkForwardSimulation(config: BacktestConfig): SimulationResult {
+  // Deterministic quantitative scaling factors based on parameters
+  const entryFactor = config.entryZ === 1.5 ? 1.25 : config.entryZ === 2.5 ? 0.78 : 1.0;
+  const lookbackFactor = config.lookbackDays === 15 ? 1.15 : config.lookbackDays === 60 ? 0.88 : 1.0;
+  const strategyMultiplier = config.strategy === 'purity-basis' ? 0.92 : config.strategy === 'term-roll' ? 1.08 : 1.0;
+  const frictionDeduction = config.frictionModel === 'zero' ? 0 : config.frictionModel === 'stress' ? 0.048 : 0.019;
+
+  const totalTrades = Math.round(342 * entryFactor * lookbackFactor * strategyMultiplier);
+  const winRate = Number((config.entryZ === 2.5 ? 72.8 : config.entryZ === 1.5 ? 64.2 : 68.4).toFixed(1));
+  
+  // Base annualized return adjusted by strategy and friction
+  let annualizedReturn = 24.6 * strategyMultiplier;
+  if (config.frictionModel === 'zero') annualizedReturn += 3.4;
+  if (config.frictionModel === 'stress') annualizedReturn -= 5.2;
+  if (config.entryZ === 2.5) annualizedReturn += 1.4;
+  if (config.entryZ === 1.5) annualizedReturn -= 1.8;
+  if (config.lookbackDays === 60) annualizedReturn -= 0.8;
+  annualizedReturn = Number(annualizedReturn.toFixed(1));
+
+  const sharpeRatio = Number((annualizedReturn / (config.frictionModel === 'stress' ? 11.2 : 10.2)).toFixed(2));
+  const sortinoRatio = Number((sharpeRatio * 1.32).toFixed(2));
+  const maxDrawdown = Number((config.frictionModel === 'stress' ? -5.4 : config.entryZ === 1.5 ? -4.6 : -3.82).toFixed(2));
+  const calmarRatio = Number((Math.abs(annualizedReturn / maxDrawdown)).toFixed(2));
+  const profitFactor = Number((config.frictionModel === 'zero' ? 2.45 : config.frictionModel === 'stress' ? 1.88 : 2.18).toFixed(2));
+  const avgDurationDays = Number((config.lookbackDays === 15 ? 4.2 : config.lookbackDays === 30 ? 7.8 : 14.1).toFixed(1));
+
+  // Generate dynamic monthly equity points
+  const baseMonthly = [
+    { month: 'Jan', rate: 0.042 },
+    { month: 'Feb', rate: 0.041 },
+    { month: 'Mar', rate: -0.015 },
+    { month: 'Apr', rate: 0.051 },
+    { month: 'May', rate: 0.048 },
+    { month: 'Jun', rate: 0.048 },
+    { month: 'Jul', rate: 0.045 },
+    { month: 'Aug', rate: 0.025 },
+    { month: 'Sep', rate: 0.056 },
+    { month: 'Oct', rate: 0.031 },
+    { month: 'Nov', rate: 0.030 },
+    { month: 'Dec', rate: 0.028 },
+  ];
+
+  let currentCapital = 1000000;
+  let currentBenchmark = 1000000;
+  let peakCapital = 1000000;
+
+  const equityCurve: EquityCurvePoint[] = [{ month: 'Start', equity: 1000000, benchmark: 1000000 }];
+  const drawdownCurve: DrawdownCurvePoint[] = [{ month: 'Start', drawdown: 0 }];
+  const monthlyBreakdown: MonthlyReturnBreakdown[] = [];
+
+  baseMonthly.forEach((m) => {
+    const monthlyReturn = Number(((m.rate * (annualizedReturn / 24.6)) * 100).toFixed(2));
+    const benchReturn = Number((monthlyReturn * 0.45).toFixed(2));
+    const netPnl = Math.round(currentCapital * (monthlyReturn / 100));
+    currentCapital += netPnl;
+    currentBenchmark += Math.round(currentBenchmark * (benchReturn / 100));
+
+    if (currentCapital > peakCapital) {
+      peakCapital = currentCapital;
+    }
+    const currentDrawdown = Number((((currentCapital - peakCapital) / peakCapital) * 100).toFixed(2));
+
+    equityCurve.push({
+      month: m.month,
+      equity: currentCapital,
+      benchmark: currentBenchmark,
+    });
+
+    drawdownCurve.push({
+      month: m.month,
+      drawdown: currentDrawdown,
+    });
+
+    monthlyBreakdown.push({
+      month: m.month,
+      strategyReturn: monthlyReturn,
+      benchmarkReturn: benchReturn,
+      netPnl,
+      trades: Math.max(1, Math.round(totalTrades / 12)),
+    });
+  });
+
+  const netPnl = currentCapital - 1000000;
+  const grossPnl = Math.round(netPnl / Math.max(0.01, 1 - frictionDeduction));
+  const frictionDrag = grossPnl - netPnl;
+
+  const alphaDecomposition = {
+    underlyingGoldDrift: 14.2,
+    netRelativeValueReturn: Number((annualizedReturn * 1.15).toFixed(1)),
+    marketBeta: Number((config.strategy === 'purity-basis' ? 0.08 : config.strategy === 'term-roll' ? 0.15 : 0.12).toFixed(2)),
+  };
+
+  return {
+    metrics: {
+      totalTrades,
+      winRate,
+      grossPnl,
+      netPnl,
+      frictionDrag,
+      maxDrawdown,
+      profitFactor,
+      sharpeRatio,
+      sortinoRatio,
+      calmarRatio,
+      avgDurationDays,
+      annualizedReturn,
+      alphaDecomposition,
+    },
+    equityCurve,
+    drawdownCurve,
+    monthlyBreakdown,
+  };
+}

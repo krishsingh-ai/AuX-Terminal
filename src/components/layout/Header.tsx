@@ -1,16 +1,15 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Sun, Moon, User, Menu, Search } from 'lucide-react';
+import { Sun, Moon, Menu, Search } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 import { useAuth } from '../../hooks/useAuth';
 import { cn } from '../../utils/cn';
-import { getUserInitials } from '../../utils/initials';
 
 export type NavTab = string;
 
 export const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
-  const { session, setIsSideMenuOpen, setIsCommandOpen } = useAuth();
+  const { setIsSideMenuOpen, setIsCommandOpen } = useAuth();
 
   const navLinks = [
     { name: 'Home', path: '/', end: true },
@@ -19,10 +18,6 @@ export const Header: React.FC = () => {
     { name: 'Methodology', path: '/methodology' },
     { name: 'About Us', path: '/about' },
   ];
-
-  const handleUserButtonClick = () => {
-    setIsSideMenuOpen(true);
-  };
 
   const handleHamburgerClick = () => {
     setIsSideMenuOpen(true);
@@ -112,26 +107,6 @@ export const Header: React.FC = () => {
                 ? '⌘K'
                 : 'Ctrl K'}
             </span>
-          </button>
-
-          {/* User Icon Button with Role-Based Rendering */}
-          <button
-            onClick={handleUserButtonClick}
-            className="h-9 min-w-9 px-2.5 rounded-lg border border-slate-200 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-900/40 text-slate-700 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer flex items-center justify-center gap-1.5 shrink-0 active:scale-95"
-            aria-label="User session"
-            title={session?.name ? `Session: ${session.name} (${session.role})` : 'Terminal User'}
-          >
-            {session ? (
-              session.role === 'admin' ? (
-                <span className="font-bold text-xs text-[#EAB308] dark:text-[#FBBF24]">A</span>
-              ) : (
-                <span className="font-semibold text-xs tracking-wider font-mono">
-                  {getUserInitials(session.name)}
-                </span>
-              )
-            ) : (
-              <User className="w-4 h-4" />
-            )}
           </button>
 
           {/* Hamburger Menu Button (Always visible on all breakpoints) */}
