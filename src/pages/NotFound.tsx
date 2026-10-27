@@ -1,15 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import AnimateIn from '../components/ui/AnimateIn';
 import Button from '../components/ui/Button';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import { pageMotionVariants, pageMotionTransition } from '../utils/motion';
 
 export const NotFound: React.FC = () => {
   useDocumentTitle('404 Not Found | AuX Terminal');
 
   return (
-    <div className="min-h-[calc(100vh-220px)] flex items-center justify-center py-12 px-4">
+    <motion.div
+      variants={pageMotionVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={pageMotionTransition}
+      className="min-h-[calc(100vh-220px)] flex items-center justify-center py-12 px-4"
+    >
       <AnimateIn className="w-full max-w-md">
         <div className="flex flex-col items-center justify-center text-center p-6 sm:p-8 md:p-12 rounded-2xl border border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#18181B] shadow-sm space-y-6">
           <div className="space-y-2">
@@ -34,7 +43,7 @@ export const NotFound: React.FC = () => {
           </div>
         </div>
       </AnimateIn>
-    </div>
+    </motion.div>
   );
 };
 

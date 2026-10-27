@@ -7,6 +7,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useGreeting } from '../../hooks/useGreeting';
 import { cn } from '../../utils/cn';
 import { getUserInitials } from '../../utils/initials';
+import { snappyEase } from '../../utils/motion';
 
 export const SideMenu: React.FC = () => {
   const {
@@ -64,7 +65,7 @@ export const SideMenu: React.FC = () => {
           initial={{ x: '100%' }}
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
-          transition={{ type: 'tween', duration: 0.25, ease: 'easeOut' }}
+          transition={{ type: 'tween', duration: 0.25, ease: snappyEase }}
           className="relative z-10 w-[85vw] sm:w-96 max-w-[400px] h-full border-l border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#18181B] text-[#111827] dark:text-[#F9FAFB] shadow-2xl flex flex-col justify-between overflow-y-auto"
         >
           {/* Top & Content Section */}
@@ -128,12 +129,12 @@ export const SideMenu: React.FC = () => {
                     <div
                       key={t.symbol}
                       className={cn(
-                        'flex items-center justify-between py-1.5 px-2 rounded-lg text-xs transition-colors duration-300 font-mono',
+                        'flex items-center justify-between py-1.5 px-2 rounded-lg text-xs font-mono',
                         isFlashing
                           ? flashingSymbol.direction === 'up'
-                            ? 'bg-emerald-50 dark:bg-emerald-950/40'
-                            : 'bg-rose-50 dark:bg-rose-950/40'
-                          : 'bg-white/70 dark:bg-[#18181B]/70 border border-[#E5E7EB]/50 dark:border-[#27272A]/50'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/40 transition-none'
+                            : 'bg-rose-50 dark:bg-rose-950/40 transition-none'
+                          : 'bg-white/70 dark:bg-[#18181B]/70 border border-[#E5E7EB]/50 dark:border-[#27272A]/50 transition-colors duration-1000 ease-out'
                       )}
                     >
                       <div>
@@ -148,12 +149,12 @@ export const SideMenu: React.FC = () => {
                       <div className="text-right">
                         <span
                           className={cn(
-                            'font-bold transition-all duration-300 block',
+                            'font-bold block',
                             isFlashing
                               ? flashingSymbol.direction === 'up'
-                                ? 'text-emerald-600 dark:text-emerald-400 scale-105'
-                                : 'text-rose-600 dark:text-rose-400 scale-105'
-                              : 'text-zinc-900 dark:text-zinc-100'
+                                ? 'text-emerald-600 dark:text-emerald-400 scale-105 transition-none'
+                                : 'text-rose-600 dark:text-rose-400 scale-105 transition-none'
+                              : 'text-zinc-900 dark:text-zinc-100 transition-colors duration-1000 ease-out'
                           )}
                         >
                           ₹{t.price.toLocaleString('en-IN')}
@@ -193,7 +194,7 @@ export const SideMenu: React.FC = () => {
                       Pairwise Intelligence
                     </span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-0.5 group-hover:text-[#1E3A8A] dark:group-hover:text-[#3B82F6] transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#1E3A8A] dark:group-hover:text-[#3B82F6] transition-all duration-150" />
                 </Link>
 
                 <Link
@@ -207,7 +208,7 @@ export const SideMenu: React.FC = () => {
                       Walk-Forward Backtest
                     </span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-0.5 group-hover:text-[#1E3A8A] dark:group-hover:text-[#3B82F6] transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#1E3A8A] dark:group-hover:text-[#3B82F6] transition-all duration-150" />
                 </Link>
 
                 <Link
@@ -221,7 +222,7 @@ export const SideMenu: React.FC = () => {
                       Methodology & Formulations
                     </span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-0.5 group-hover:text-[#1E3A8A] dark:group-hover:text-[#3B82F6] transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#1E3A8A] dark:group-hover:text-[#3B82F6] transition-all duration-150" />
                 </Link>
 
                 <Link
@@ -235,7 +236,7 @@ export const SideMenu: React.FC = () => {
                       About AuX Terminal
                     </span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-0.5 group-hover:text-[#1E3A8A] dark:group-hover:text-[#3B82F6] transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#1E3A8A] dark:group-hover:text-[#3B82F6] transition-all duration-150" />
                 </Link>
               </div>
             </div>

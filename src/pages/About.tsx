@@ -1,7 +1,9 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Award, Code2, Users, Cpu, ShieldCheck } from 'lucide-react';
 import AnimateIn from '../components/ui/AnimateIn';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import { pageMotionVariants, pageMotionTransition } from '../utils/motion';
 
 export const About: React.FC = () => {
   useDocumentTitle('About Us | AuX Terminal');
@@ -30,7 +32,14 @@ export const About: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto space-y-16 py-8">
+    <motion.div
+      variants={pageMotionVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={pageMotionTransition}
+      className="max-w-5xl mx-auto space-y-16 py-8"
+    >
       {/* Hero Section */}
       <AnimateIn>
         <div className="max-w-3xl space-y-4">
@@ -141,7 +150,7 @@ export const About: React.FC = () => {
           </div>
         </div>
       </AnimateIn>
-    </div>
+    </motion.div>
   );
 };
 

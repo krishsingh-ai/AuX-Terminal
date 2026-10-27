@@ -1,12 +1,21 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { BookOpen, Scale, Clock, Receipt, AlertTriangle } from 'lucide-react';
 import AnimateIn from '../components/ui/AnimateIn';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import { pageMotionVariants, pageMotionTransition } from '../utils/motion';
 
 export const Methodology: React.FC = () => {
   useDocumentTitle('Methodology | AuX Terminal');
   return (
-    <div className="max-w-4xl mx-auto space-y-12 py-8">
+    <motion.div
+      variants={pageMotionVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={pageMotionTransition}
+      className="max-w-4xl mx-auto space-y-12 py-8"
+    >
       {/* Header */}
       <AnimateIn>
         <div className="space-y-3">
@@ -147,7 +156,7 @@ export const Methodology: React.FC = () => {
           </p>
         </div>
       </AnimateIn>
-    </div>
+    </motion.div>
   );
 };
 

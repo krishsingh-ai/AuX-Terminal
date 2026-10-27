@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Loader2, AlertCircle, User, Lock } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { cn } from '../../utils/cn';
+import { snappyEase } from '../../utils/motion';
 
 export const AuthModal: React.FC = () => {
   const { session, login, consent } = useAuth();
@@ -69,15 +70,17 @@ export const AuthModal: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/70 backdrop-blur-md"
+          transition={{ duration: 0.2, ease: snappyEase }}
+          style={{ backdropFilter: 'blur(4px)' }}
+          className="fixed inset-0 bg-black/60"
         />
 
         {/* Modal Card */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 15 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.96, y: 15 }}
-          transition={{ duration: 0.25, ease: 'easeOut' }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2, ease: snappyEase }}
           className="relative z-10 w-full max-w-md max-h-[90vh] overflow-y-auto rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#18181B] p-6 sm:p-8 shadow-2xl text-[#111827] dark:text-[#F9FAFB]"
           role="dialog"
           aria-modal="true"

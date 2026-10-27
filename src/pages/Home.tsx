@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   TrendingUp,
   Activity,
@@ -13,13 +14,21 @@ import Button from '../components/ui/Button';
 import { useAuth } from '../hooks/useAuth';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import { pairwiseData } from '../data/mockData';
+import { pageMotionVariants, pageMotionTransition } from '../utils/motion';
 
 export const Home: React.FC = () => {
   useDocumentTitle('AuX | Commodity Derivatives Intelligence Terminal');
   const { tickers } = useAuth();
 
   return (
-    <div className="space-y-16 py-8 md:py-16">
+    <motion.div
+      variants={pageMotionVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={pageMotionTransition}
+      className="space-y-16 py-8 md:py-16"
+    >
       {/* Hero Section */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Left Column */}
@@ -166,20 +175,22 @@ export const Home: React.FC = () => {
       </div>
 
       {/* Feature Cards Section */}
-      <AnimateIn delay={0.15}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Feature Card 1 */}
-          <div className="rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
-            <div className="w-10 h-10 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#09090B] flex items-center justify-center text-[#1E3A8A] dark:text-[#3B82F6]">
-              <TrendingUp className="w-5 h-5" />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-lg font-semibold text-[#111827] dark:text-[#F9FAFB]">
-                Volatility Surface &amp; Term Structure
-              </h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Simulated forward basis tracking and cross-tenor spread modeling across active MCX gold contracts.
-              </p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Feature Card 1 */}
+        <AnimateIn delay={0.15}>
+          <div className="h-full rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6] flex flex-col justify-between">
+            <div className="space-y-4">
+              <div className="w-10 h-10 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#09090B] flex items-center justify-center text-[#1E3A8A] dark:text-[#3B82F6]">
+                <TrendingUp className="w-5 h-5" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-semibold text-[#111827] dark:text-[#F9FAFB]">
+                  Volatility Surface &amp; Term Structure
+                </h3>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  Simulated forward basis tracking and cross-tenor spread modeling across active MCX gold contracts.
+                </p>
+              </div>
             </div>
             <div className="pt-2 border-t border-[#E5E7EB] dark:border-[#27272A]">
               <span className="font-mono text-xs font-semibold text-[#1E3A8A] dark:text-[#3B82F6]">
@@ -187,19 +198,23 @@ export const Home: React.FC = () => {
               </span>
             </div>
           </div>
+        </AnimateIn>
 
-          {/* Feature Card 2 */}
-          <div className="rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
-            <div className="w-10 h-10 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#09090B] flex items-center justify-center text-[#1E3A8A] dark:text-[#3B82F6]">
-              <Activity className="w-5 h-5" />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-lg font-semibold text-[#111827] dark:text-[#F9FAFB]">
-                Systematic Relative-Value Backtesting
-              </h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Deterministic walk-forward backtesting with transaction costs, slippage models, and automated stop-loss regimes tailored for calendar spreads.
-              </p>
+        {/* Feature Card 2 */}
+        <AnimateIn delay={0.2}>
+          <div className="h-full rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6] flex flex-col justify-between">
+            <div className="space-y-4">
+              <div className="w-10 h-10 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#09090B] flex items-center justify-center text-[#1E3A8A] dark:text-[#3B82F6]">
+                <Activity className="w-5 h-5" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-semibold text-[#111827] dark:text-[#F9FAFB]">
+                  Systematic Relative-Value Backtesting
+                </h3>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  Deterministic walk-forward backtesting with transaction costs, slippage models, and automated stop-loss regimes tailored for calendar spreads.
+                </p>
+              </div>
             </div>
             <div className="pt-2 border-t border-[#E5E7EB] dark:border-[#27272A]">
               <span className="font-mono text-xs font-semibold text-[#1E3A8A] dark:text-[#3B82F6]">
@@ -207,19 +222,23 @@ export const Home: React.FC = () => {
               </span>
             </div>
           </div>
+        </AnimateIn>
 
-          {/* Feature Card 3 */}
-          <div className="rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
-            <div className="w-10 h-10 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#09090B] flex items-center justify-center text-[#1E3A8A] dark:text-[#3B82F6]">
-              <Layers className="w-5 h-5" />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-lg font-semibold text-[#111827] dark:text-[#F9FAFB]">
-                Physical-to-Financial Basis Analytics
-              </h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Analyze domestic spot basis analytics and cross-tenor spreads across MCX gold futures contracts for relative-value detection.
-              </p>
+        {/* Feature Card 3 */}
+        <AnimateIn delay={0.25}>
+          <div className="h-full rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6] flex flex-col justify-between">
+            <div className="space-y-4">
+              <div className="w-10 h-10 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#09090B] flex items-center justify-center text-[#1E3A8A] dark:text-[#3B82F6]">
+                <Layers className="w-5 h-5" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-semibold text-[#111827] dark:text-[#F9FAFB]">
+                  Physical-to-Financial Basis Analytics
+                </h3>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  Analyze domestic spot basis analytics and cross-tenor spreads across MCX gold futures contracts for relative-value detection.
+                </p>
+              </div>
             </div>
             <div className="pt-2 border-t border-[#E5E7EB] dark:border-[#27272A]">
               <span className="font-mono text-xs font-semibold text-[#1E3A8A] dark:text-[#3B82F6]">
@@ -227,9 +246,9 @@ export const Home: React.FC = () => {
               </span>
             </div>
           </div>
-        </div>
-      </AnimateIn>
-    </div>
+        </AnimateIn>
+      </div>
+    </motion.div>
   );
 };
 

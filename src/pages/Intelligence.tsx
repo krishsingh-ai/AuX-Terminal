@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import {
   ResponsiveContainer,
   LineChart,
@@ -15,6 +16,7 @@ import { pairwiseData, contractLifecycleData } from '../data/mockData';
 import { cn } from '../utils/cn';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import { useAuth } from '../hooks/useAuth';
+import { pageMotionVariants, pageMotionTransition } from '../utils/motion';
 
 interface CustomTooltipProps {
   active?: boolean;
@@ -69,7 +71,14 @@ export const Intelligence: React.FC = () => {
   const meanColor = isDark ? '#71717A' : '#6B7280';
 
   return (
-    <div className="space-y-10 py-6">
+    <motion.div
+      variants={pageMotionVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={pageMotionTransition}
+      className="space-y-10 py-6"
+    >
       {/* Header */}
       <AnimateIn>
         <div className="space-y-2">
@@ -351,7 +360,7 @@ export const Intelligence: React.FC = () => {
           )}
         </div>
       </AnimateIn>
-    </div>
+    </motion.div>
   );
 };
 

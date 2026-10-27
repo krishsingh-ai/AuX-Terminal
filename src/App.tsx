@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './hooks/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { useAuth } from './hooks/useAuth';
@@ -20,6 +21,7 @@ import PrivacyPolicyModal from './components/consent/PrivacyPolicyModal';
 import ErrorBoundary from './components/ui/ErrorBoundary';
 
 function AppContent() {
+  const location = useLocation();
   const {
     isCommandOpen,
     setIsCommandOpen,
@@ -46,14 +48,16 @@ function AppContent() {
   return (
     <>
       <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/intelligence" element={<Intelligence />} />
-          <Route path="/backtest" element={<Backtest />} />
-          <Route path="/methodology" element={<Methodology />} />
-          <Route path="/about" element={<About />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<Home />} />
+            <Route path="/intelligence" element={<Intelligence />} />
+            <Route path="/backtest" element={<Backtest />} />
+            <Route path="/methodology" element={<Methodology />} />
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AnimatePresence>
       </Layout>
 
       {/* Unescapable forced login modal when session is null */}

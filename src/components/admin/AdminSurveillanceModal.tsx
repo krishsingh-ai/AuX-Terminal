@@ -4,6 +4,7 @@ import { Shield, X, Trash2, Database, Clock } from 'lucide-react';
 import { format } from 'date-fns';
 import { useAuth } from '../../hooks/useAuth';
 import type { SessionHistoryEntry } from '../../types/auth';
+import { snappyEase } from '../../utils/motion';
 
 function readSessionHistory(): SessionHistoryEntry[] {
   try {
@@ -56,16 +57,18 @@ export const AdminSurveillanceModal: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.2, ease: snappyEase }}
+          style={{ backdropFilter: 'blur(4px)' }}
           onClick={() => setIsAdminPanelOpen(false)}
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 bg-black/60"
         />
 
         {/* Modal Window */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.98, y: 15 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.98, y: 15 }}
-          transition={{ duration: 0.2, ease: 'easeOut' }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2, ease: snappyEase }}
           className="relative z-10 w-full max-w-5xl max-h-[85vh] flex flex-col rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#18181B] shadow-2xl text-[#111827] dark:text-[#F9FAFB] overflow-hidden"
           role="dialog"
           aria-modal="true"

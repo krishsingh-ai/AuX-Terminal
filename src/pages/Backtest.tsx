@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   ResponsiveContainer,
   AreaChart,
@@ -16,6 +17,7 @@ import { useTheme } from '../hooks/useTheme';
 import { backtestMetrics, equityCurveData } from '../data/mockData';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import { useAuth } from '../hooks/useAuth';
+import { pageMotionVariants, pageMotionTransition } from '../utils/motion';
 
 interface CustomTooltipProps {
   active?: boolean;
@@ -68,7 +70,14 @@ export const Backtest: React.FC = () => {
   };
 
   return (
-    <div className="space-y-10 py-6">
+    <motion.div
+      variants={pageMotionVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={pageMotionTransition}
+      className="space-y-10 py-6"
+    >
       {/* Header */}
       <AnimateIn>
         <div className="space-y-2">
@@ -98,11 +107,11 @@ export const Backtest: React.FC = () => {
         </Button>
       </AnimateIn>
 
-      {/* Top Row: 4 Metric Cards */}
-      <AnimateIn delay={0.1}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {/* Card 1: Total Trades */}
-          <div className="rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
+      {/* Top Row: 4 Metric Cards (Staggered Load) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        {/* Card 1: Total Trades */}
+        <AnimateIn delay={0.05}>
+          <div className="h-full rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
             <div className="flex items-center justify-between text-zinc-500 dark:text-zinc-400">
               <span className="text-xs font-medium">Total Trades</span>
               <Layers className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
@@ -114,9 +123,11 @@ export const Backtest: React.FC = () => {
               100% Deterministic Execution
             </p>
           </div>
+        </AnimateIn>
 
-          {/* Card 2: Win Rate */}
-          <div className="rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
+        {/* Card 2: Win Rate */}
+        <AnimateIn delay={0.1}>
+          <div className="h-full rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
             <div className="flex items-center justify-between text-zinc-500 dark:text-zinc-400">
               <span className="text-xs font-medium">Win Rate</span>
               <Percent className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
@@ -128,9 +139,11 @@ export const Backtest: React.FC = () => {
               234 Wins / 108 Losses
             </p>
           </div>
+        </AnimateIn>
 
-          {/* Card 3: Gross P&L */}
-          <div className="rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
+        {/* Card 3: Gross P&L */}
+        <AnimateIn delay={0.15}>
+          <div className="h-full rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
             <div className="flex items-center justify-between text-zinc-500 dark:text-zinc-400">
               <span className="text-xs font-medium">Gross Cumulative P&amp;L</span>
               <DollarSign className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
@@ -142,9 +155,11 @@ export const Backtest: React.FC = () => {
               Annualized: +{backtestMetrics.annualizedReturn}% • Sharpe: {backtestMetrics.sharpeRatio}
             </p>
           </div>
+        </AnimateIn>
 
-          {/* Card 4: Max Drawdown */}
-          <div className="rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
+        {/* Card 4: Max Drawdown */}
+        <AnimateIn delay={0.2}>
+          <div className="h-full rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-5 sm:p-6 space-y-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
             <div className="flex items-center justify-between text-zinc-500 dark:text-zinc-400">
               <span className="text-xs font-medium">Max Drawdown</span>
               <ArrowDownRight className="w-4 h-4 text-rose-500" />
@@ -156,8 +171,8 @@ export const Backtest: React.FC = () => {
               Recovery Time: 18 Days
             </p>
           </div>
-        </div>
-      </AnimateIn>
+        </AnimateIn>
+      </div>
 
       {/* Middle: Walk-Forward Cumulative Equity Area Chart */}
       <AnimateIn delay={0.15}>
@@ -244,8 +259,8 @@ export const Backtest: React.FC = () => {
       </AnimateIn>
 
       {/* Bottom: Alpha Decomposition Section */}
-      <AnimateIn delay={0.2}>
-        <div className="space-y-4">
+      <div className="space-y-4">
+        <AnimateIn delay={0.15}>
           <div>
             <h2 className="text-lg font-semibold text-[#111827] dark:text-[#F9FAFB]">
               Alpha Decomposition
@@ -254,10 +269,12 @@ export const Backtest: React.FC = () => {
               Factor analysis breaking down strategy outperformance into passive drift versus genuine statistical edge
             </p>
           </div>
+        </AnimateIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Card 1: Underlying Gold Drift */}
-            <div className="rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-6 space-y-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Card 1: Underlying Gold Drift */}
+          <AnimateIn delay={0.2}>
+            <div className="h-full rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-6 space-y-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
               <div className="flex items-center justify-between text-zinc-500 dark:text-zinc-400">
                 <span className="text-xs font-medium">Underlying Gold Drift</span>
                 <TrendingUp className="w-4 h-4 text-amber-500" />
@@ -269,9 +286,11 @@ export const Backtest: React.FC = () => {
                 Passive buy-and-hold return of MCX physical bullion benchmark over the equivalent 12-month backtest horizon.
               </p>
             </div>
+          </AnimateIn>
 
-            {/* Card 2: Net Relative-Value Return */}
-            <div className="rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-6 space-y-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
+          {/* Card 2: Net Relative-Value Return */}
+          <AnimateIn delay={0.25}>
+            <div className="h-full rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-6 space-y-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
               <div className="flex items-center justify-between text-zinc-500 dark:text-zinc-400">
                 <span className="text-xs font-medium">Net Relative-Value Return</span>
                 <ShieldCheck className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
@@ -283,9 +302,11 @@ export const Backtest: React.FC = () => {
                 Pure idiosyncratic alpha generated from calendar spread mean-reversion, net of brokerage, exchange fees, and STT.
               </p>
             </div>
+          </AnimateIn>
 
-            {/* Card 3: Market Beta */}
-            <div className="rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-6 space-y-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
+          {/* Card 3: Market Beta */}
+          <AnimateIn delay={0.3}>
+            <div className="h-full rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#18181B] p-6 space-y-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6]">
               <div className="flex items-center justify-between text-zinc-500 dark:text-zinc-400">
                 <span className="text-xs font-medium">Market Beta (β)</span>
                 <BarChart3 className="w-4 h-4 text-emerald-500" />
@@ -297,10 +318,10 @@ export const Backtest: React.FC = () => {
                 Near-zero directional sensitivity confirming true market-neutral calendar spread statistical arbitrage.
               </p>
             </div>
-          </div>
+          </AnimateIn>
         </div>
-      </AnimateIn>
-    </div>
+      </div>
+    </motion.div>
   );
 };
 
