@@ -15,7 +15,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div
       className={cn(
-        'min-h-screen flex flex-col bg-white dark:bg-[#09090B] text-[#111827] dark:text-[#F9FAFB] transition-all duration-300',
+        'min-h-screen w-full overflow-x-hidden flex flex-col bg-transparent text-slate-900 dark:text-[#F9FAFB] transition-colors duration-300',
         !session && consent !== null && 'filter blur-sm pointer-events-none select-none'
       )}
     >

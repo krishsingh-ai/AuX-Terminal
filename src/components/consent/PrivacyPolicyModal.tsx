@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Shield, Lock, Eye, Database, Clock, Mail } from 'lucide-react';
 import Button from '../ui/Button';
+import { useAuth } from '../../hooks/useAuth';
 
 export interface PrivacyPolicyModalProps {
   isOpen: boolean;
@@ -9,6 +10,8 @@ export interface PrivacyPolicyModalProps {
 }
 
 export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose }) => {
+  const { consent, acceptConsent, declineConsent } = useAuth();
+
   // Close on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -41,16 +44,16 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, 
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="relative z-10 w-full max-w-xl max-h-[85vh] flex flex-col rounded-2xl border border-[#E5E7EB] dark:border-[#27272A] bg-white/95 dark:bg-[#18181B]/95 backdrop-blur-xl shadow-2xl text-[#111827] dark:text-[#F9FAFB] overflow-hidden"
+            className="relative z-10 w-full max-w-xl max-h-[85vh] flex flex-col rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-[#121215] shadow-2xl shadow-black/20 dark:shadow-black/60 text-slate-900 dark:text-slate-100 overflow-hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Privacy Policy"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-[#E5E7EB] dark:border-[#27272A] bg-zinc-50/50 dark:bg-zinc-900/30">
+            <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-slate-200 dark:border-zinc-800/80 bg-slate-50/80 dark:bg-zinc-900/40">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/60 flex items-center justify-center text-[#1E3A8A] dark:text-[#3B82F6]">
+                <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/40 flex items-center justify-center text-[#EAB308] dark:text-[#FBBF24]">
                   <Shield className="w-4 h-4" />
                 </div>
                 <div>
@@ -75,7 +78,7 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, 
               {/* Section 1: What we store */}
               <section className="space-y-1.5">
                 <div className="flex items-center gap-2 font-semibold text-[#111827] dark:text-[#F9FAFB]">
-                  <Database className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
+                  <Database className="w-4 h-4 text-[#EAB308] dark:text-[#FBBF24]" />
                   <h3>What we store</h3>
                 </div>
                 <p className="text-xs leading-relaxed pl-6 text-zinc-500 dark:text-zinc-400">
@@ -86,7 +89,7 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, 
               {/* Section 2: Where it's stored */}
               <section className="space-y-1.5">
                 <div className="flex items-center gap-2 font-semibold text-[#111827] dark:text-[#F9FAFB]">
-                  <Lock className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
+                  <Lock className="w-4 h-4 text-[#EAB308] dark:text-[#FBBF24]" />
                   <h3>Where it&apos;s stored</h3>
                 </div>
                 <p className="text-xs leading-relaxed pl-6 text-zinc-500 dark:text-zinc-400">
@@ -97,7 +100,7 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, 
               {/* Section 3: Who can see it */}
               <section className="space-y-1.5">
                 <div className="flex items-center gap-2 font-semibold text-[#111827] dark:text-[#F9FAFB]">
-                  <Eye className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
+                  <Eye className="w-4 h-4 text-[#EAB308] dark:text-[#FBBF24]" />
                   <h3>Who can see it</h3>
                 </div>
                 <p className="text-xs leading-relaxed pl-6 text-zinc-500 dark:text-zinc-400">
@@ -108,7 +111,7 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, 
               {/* Section 4: How long we keep it */}
               <section className="space-y-1.5">
                 <div className="flex items-center gap-2 font-semibold text-[#111827] dark:text-[#F9FAFB]">
-                  <Clock className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
+                  <Clock className="w-4 h-4 text-[#EAB308] dark:text-[#FBBF24]" />
                   <h3>How long we keep it</h3>
                 </div>
                 <p className="text-xs leading-relaxed pl-6 text-zinc-500 dark:text-zinc-400">
@@ -119,7 +122,7 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, 
               {/* Section 5: Your rights */}
               <section className="space-y-1.5">
                 <div className="flex items-center gap-2 font-semibold text-[#111827] dark:text-[#F9FAFB]">
-                  <Shield className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
+                  <Shield className="w-4 h-4 text-[#EAB308] dark:text-[#FBBF24]" />
                   <h3>Your rights</h3>
                 </div>
                 <p className="text-xs leading-relaxed pl-6 text-zinc-500 dark:text-zinc-400">
@@ -130,14 +133,14 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, 
               {/* Section 6: Contact */}
               <section className="space-y-1.5">
                 <div className="flex items-center gap-2 font-semibold text-[#111827] dark:text-[#F9FAFB]">
-                  <Mail className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
+                  <Mail className="w-4 h-4 text-[#EAB308] dark:text-[#FBBF24]" />
                   <h3>Contact</h3>
                 </div>
                 <p className="text-xs leading-relaxed pl-6 text-zinc-500 dark:text-zinc-400">
                   For privacy inquiries, audit verification, or rights management, reach out to our team at{' '}
                   <a
                     href="mailto:privacy@aux-terminal.app"
-                    className="text-[#1E3A8A] dark:text-[#3B82F6] hover:underline font-mono"
+                    className="text-[#EAB308] dark:text-[#FBBF24] hover:underline font-mono"
                   >
                     privacy@aux-terminal.app
                   </a>
@@ -147,13 +150,38 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, 
             </div>
 
             {/* Footer of modal */}
-            <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-t border-[#E5E7EB] dark:border-[#27272A] bg-zinc-50/50 dark:bg-zinc-900/30">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 sm:px-6 py-4 border-t border-slate-200 dark:border-zinc-800/80 bg-slate-50/80 dark:bg-zinc-900/40">
               <span className="text-xs font-mono text-zinc-400">
-                Last updated: September 28, 2026
+                Consent:{' '}
+                <strong className={consent?.accepted ? 'text-emerald-500' : consent ? 'text-amber-500' : 'text-zinc-400'}>
+                  {consent?.accepted ? 'Accepted' : consent ? 'Declined' : 'Not Set'}
+                </strong>
               </span>
-              <Button variant="secondary" size="sm" onClick={onClose}>
-                Close
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => {
+                    acceptConsent();
+                    onClose();
+                  }}
+                >
+                  Accept All
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    declineConsent();
+                    onClose();
+                  }}
+                >
+                  Decline
+                </Button>
+                <Button variant="secondary" size="sm" onClick={onClose}>
+                  Close
+                </Button>
+              </div>
             </div>
           </motion.div>
         </div>

@@ -10,6 +10,9 @@ export interface AuthContextType {
   isConsentBannerVisible: boolean;
   acceptConsent: () => void;
   declineConsent: () => void;
+  openConsentBanner: () => void;
+  closeConsentBanner: () => void;
+  resetConsent: () => void;
   isPrivacyModalOpen: boolean;
   setIsPrivacyModalOpen: (open: boolean) => void;
   incrementStat: (key: keyof Omit<UserStats, 'sessionStartTime'>) => void;

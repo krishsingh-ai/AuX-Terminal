@@ -22,6 +22,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return null;
     }
   });
+  const [isConsentBannerOpen, setIsConsentBannerOpen] = useState(false);
 
   // 3. Active Session from sessionStorage
   const [session, setSession] = useState<UserSession | null>(() => {
@@ -113,6 +114,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.error('Failed to write consent:', err);
     }
     setConsent(record);
+    setIsConsentBannerOpen(false);
     showToast('Preferences saved');
   }, [showToast]);
 
@@ -129,13 +131,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.error('Failed to save declined consent:', err);
     }
     setConsent(record);
+    setIsConsentBannerOpen(false);
     showToast('Session tracking disabled');
+  }, [showToast]);
+
+  const openConsentBanner = useCallback(() => {
+    setIsConsentBannerOpen(true);
+  }, []);
+
+  const closeConsentBanner = useCallback(() => {
+    setIsConsentBannerOpen(false);
+  }, []);
+
+  const resetConsent = useCallback(() => {
+    try {
+      localStorage.removeItem('aux_consent');
+    } catch (err) {
+      console.error('Failed to clear consent:', err);
+    }
+    setConsent(null);
+    setIsConsentBannerOpen(true);
+    showToast('Cookie & Privacy consent reset');
   }, [showToast]);
 
   const hasConsent = Boolean(consent?.accepted);
 
   const isConsentBannerVisible =
-    consent === null &&
+    (consent === null || isConsentBannerOpen) &&
     session?.role !== 'admin' &&
     (() => {
       try {
@@ -253,6 +275,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isConsentBannerVisible,
         acceptConsent,
         declineConsent,
+        openConsentBanner,
+        closeConsentBanner,
+        resetConsent,
         isPrivacyModalOpen,
         setIsPrivacyModalOpen,
         incrementStat,

@@ -3,27 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    
+    <!-- Automatic HTTPS Enforcement Script -->
+    <script>
+      if (typeof window !== 'undefined' && location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+        location.replace('https://' + location.hostname + (location.port ? ':' + location.port : '') + location.pathname + location.search + location.hash);
+      }
+    </script>
+
     <title>AuX | Commodity Derivatives Intelligence Terminal</title>
     <meta name="description" content="AuX — Institutional-grade Commodity Derivatives Intelligence Terminal for MCX Gold futures. Pairwise spread analytics, walk-forward backtesting, and session audit surveillance. Built for Hack in Hills '26." />
     <meta name="theme-color" content="#09090B" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="author" content="Krish Raj, Ananya Tiwari, Kajal Kumari" />
+    
     <!-- Open Graph for social sharing -->
     <meta property="og:title" content="AuX | Commodity Derivatives Intelligence Terminal" />
     <meta property="og:description" content="Institutional gold derivatives analytics with pairwise spread intelligence and walk-forward backtesting." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cdi-terminal.vercel.app" />
+    
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="AuX | Commodity Derivatives Intelligence Terminal" />
     <meta name="twitter:description" content="Institutional gold derivatives analytics for MCX." />
+    
     <!-- Google Fonts: Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
-  <body class="min-h-screen bg-white text-[#111827] dark:bg-[#09090B] dark:text-[#F9FAFB] font-sans antialiased selection:bg-blue-100 dark:selection:bg-blue-900/40">
-    <div id="root"></div>
+  <body class="min-h-screen w-full bg-white text-[#111827] dark:bg-[#09090B] dark:text-[#F9FAFB] font-sans antialiased selection:bg-amber-500/25 selection:text-amber-950 dark:selection:bg-amber-400/25 dark:selection:text-amber-200">
+    <div id="root" class="min-h-screen w-full"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

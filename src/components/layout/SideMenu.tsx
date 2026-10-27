@@ -13,6 +13,7 @@ export const SideMenu: React.FC = () => {
   const {
     session,
     logout,
+    openConsentBanner,
     isSideMenuOpen,
     setIsSideMenuOpen,
     setIsAdminPanelOpen,
@@ -66,14 +67,14 @@ export const SideMenu: React.FC = () => {
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: 'tween', duration: 0.25, ease: snappyEase }}
-          className="relative z-10 w-[85vw] sm:w-96 max-w-[400px] h-full border-l border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#18181B] text-[#111827] dark:text-[#F9FAFB] shadow-2xl flex flex-col justify-between overflow-y-auto"
+          className="relative z-10 w-[85vw] sm:w-96 max-w-[400px] h-full border-l border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-[#121215] text-slate-900 dark:text-slate-100 shadow-2xl flex flex-col justify-between overflow-y-auto"
         >
           {/* Top & Content Section */}
           <div className="p-5 sm:p-6 space-y-6">
             {/* Header & Close */}
-            <div className="flex items-center justify-between pb-4 border-b border-[#E5E7EB] dark:border-[#27272A]">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-zinc-800/80">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center font-bold text-sm text-[#1E3A8A] dark:text-[#3B82F6] font-mono">
+                <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-zinc-800 flex items-center justify-center font-bold text-sm text-[#EAB308] dark:text-[#FBBF24] font-mono">
                   {session?.role === 'admin' ? 'A' : getUserInitials(session?.name || '')}
                 </div>
                 <div>
@@ -94,21 +95,21 @@ export const SideMenu: React.FC = () => {
             </div>
 
             {/* Time-Based Greeting */}
-            <div className="p-4 rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#09090B] space-y-1">
+            <div className="p-4 rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-slate-50 dark:bg-[#09090B] space-y-1 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.3)]">
               <span className="text-[11px] text-zinc-500 dark:text-zinc-400 font-mono uppercase tracking-wider">
                 Session Status
               </span>
-              <p className="text-base font-semibold text-[#111827] dark:text-[#F9FAFB]">
+              <p className="text-base font-semibold text-slate-900 dark:text-slate-100">
                 {greeting}, {displayName}.
               </p>
               <div className="flex items-center gap-1.5 pt-1 text-xs text-zinc-500 dark:text-zinc-400 font-mono">
-                <Clock className="w-3.5 h-3.5 text-[#1E3A8A] dark:text-[#3B82F6]" />
+                <Clock className="w-3.5 h-3.5 text-[#EAB308] dark:text-[#FBBF24]" />
                 <span>{format(currentTime, 'HH:mm:ss')} (IST)</span>
               </div>
             </div>
 
             {/* Live Gold Ticker */}
-            <div className="p-4 rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-[#F9FAFB] dark:bg-[#09090B] space-y-3">
+            <div className="p-4 rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-slate-50 dark:bg-[#09090B] space-y-3 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.3)]">
               <div className="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
                 <span className="inline-flex items-center gap-1.5 font-medium">
                   <TrendingUp className="w-3.5 h-3.5 text-amber-500" />
@@ -134,7 +135,7 @@ export const SideMenu: React.FC = () => {
                           ? flashingSymbol.direction === 'up'
                             ? 'bg-emerald-50 dark:bg-emerald-950/40 transition-none'
                             : 'bg-rose-50 dark:bg-rose-950/40 transition-none'
-                          : 'bg-white/70 dark:bg-[#18181B]/70 border border-[#E5E7EB]/50 dark:border-[#27272A]/50 transition-colors duration-1000 ease-out'
+                          : 'bg-white/70 dark:bg-[#18181B]/70 border border-slate-200/50 dark:border-zinc-800/50 transition-colors duration-1000 ease-out'
                       )}
                     >
                       <div>
@@ -179,76 +180,93 @@ export const SideMenu: React.FC = () => {
 
             {/* Middle: Navigation Shortcuts */}
             <div className="space-y-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
                 Shortcuts
               </span>
               <div className="grid grid-cols-1 gap-1.5 text-sm">
                 <Link
                   to="/intelligence"
                   onClick={handleLinkClick}
-                  className="flex items-center justify-between p-2.5 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-zinc-50/50 dark:bg-zinc-900/30 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6] hover:bg-zinc-100/60 dark:hover:bg-zinc-800/40 transition-all group"
+                  className="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-slate-50/60 dark:bg-zinc-900/40 hover:border-[#EAB308] dark:hover:border-[#FBBF24] hover:bg-white dark:hover:bg-zinc-800/60 transition-all group shadow-[0_2px_10px_-2px_rgba(0,0,0,0.02)]"
                 >
                   <div className="flex items-center gap-2.5">
-                    <Compass className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
-                    <span className="font-medium text-zinc-800 dark:text-zinc-200">
+                    <Compass className="w-4 h-4 text-[#EAB308] dark:text-[#FBBF24]" />
+                    <span className="font-medium text-slate-800 dark:text-zinc-200">
                       Pairwise Intelligence
                     </span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#1E3A8A] dark:group-hover:text-[#3B82F6] transition-all duration-150" />
+                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#EAB308] dark:group-hover:text-[#FBBF24] transition-all duration-150" />
                 </Link>
 
                 <Link
                   to="/backtest"
                   onClick={handleLinkClick}
-                  className="flex items-center justify-between p-2.5 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-zinc-50/50 dark:bg-zinc-900/30 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6] hover:bg-zinc-100/60 dark:hover:bg-zinc-800/40 transition-all group"
+                  className="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-slate-50/60 dark:bg-zinc-900/40 hover:border-[#EAB308] dark:hover:border-[#FBBF24] hover:bg-white dark:hover:bg-zinc-800/60 transition-all group shadow-[0_2px_10px_-2px_rgba(0,0,0,0.02)]"
                 >
                   <div className="flex items-center gap-2.5">
-                    <BarChart2 className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
-                    <span className="font-medium text-zinc-800 dark:text-zinc-200">
+                    <BarChart2 className="w-4 h-4 text-[#EAB308] dark:text-[#FBBF24]" />
+                    <span className="font-medium text-slate-800 dark:text-zinc-200">
                       Walk-Forward Backtest
                     </span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#1E3A8A] dark:group-hover:text-[#3B82F6] transition-all duration-150" />
+                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#EAB308] dark:group-hover:text-[#FBBF24] transition-all duration-150" />
                 </Link>
 
                 <Link
                   to="/methodology"
                   onClick={handleLinkClick}
-                  className="flex items-center justify-between p-2.5 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-zinc-50/50 dark:bg-zinc-900/30 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6] hover:bg-zinc-100/60 dark:hover:bg-zinc-800/40 transition-all group"
+                  className="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-slate-50/60 dark:bg-zinc-900/40 hover:border-[#EAB308] dark:hover:border-[#FBBF24] hover:bg-white dark:hover:bg-zinc-800/60 transition-all group shadow-[0_2px_10px_-2px_rgba(0,0,0,0.02)]"
                 >
                   <div className="flex items-center gap-2.5">
-                    <BookOpen className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
-                    <span className="font-medium text-zinc-800 dark:text-zinc-200">
+                    <BookOpen className="w-4 h-4 text-[#EAB308] dark:text-[#FBBF24]" />
+                    <span className="font-medium text-slate-800 dark:text-zinc-200">
                       Methodology & Formulations
                     </span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#1E3A8A] dark:group-hover:text-[#3B82F6] transition-all duration-150" />
+                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#EAB308] dark:group-hover:text-[#FBBF24] transition-all duration-150" />
                 </Link>
 
                 <Link
                   to="/about"
                   onClick={handleLinkClick}
-                  className="flex items-center justify-between p-2.5 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-zinc-50/50 dark:bg-zinc-900/30 hover:border-[#1E3A8A] dark:hover:border-[#3B82F6] hover:bg-zinc-100/60 dark:hover:bg-zinc-800/40 transition-all group"
+                  className="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-slate-50/60 dark:bg-zinc-900/40 hover:border-[#EAB308] dark:hover:border-[#FBBF24] hover:bg-white dark:hover:bg-zinc-800/60 transition-all group shadow-[0_2px_10px_-2px_rgba(0,0,0,0.02)]"
                 >
                   <div className="flex items-center gap-2.5">
-                    <Info className="w-4 h-4 text-[#1E3A8A] dark:text-[#3B82F6]" />
-                    <span className="font-medium text-zinc-800 dark:text-zinc-200">
+                    <Info className="w-4 h-4 text-[#EAB308] dark:text-[#FBBF24]" />
+                    <span className="font-medium text-slate-800 dark:text-zinc-200">
                       About AuX Terminal
                     </span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#1E3A8A] dark:group-hover:text-[#3B82F6] transition-all duration-150" />
+                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#EAB308] dark:group-hover:text-[#FBBF24] transition-all duration-150" />
                 </Link>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleLinkClick();
+                    openConsentBanner();
+                  }}
+                  className="w-full flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-slate-50/60 dark:bg-zinc-900/40 hover:border-[#EAB308] dark:hover:border-[#FBBF24] hover:bg-white dark:hover:bg-zinc-800/60 transition-all group shadow-[0_2px_10px_-2px_rgba(0,0,0,0.02)] cursor-pointer text-left"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Shield className="w-4 h-4 text-[#EAB308] dark:text-[#FBBF24]" />
+                    <span className="font-medium text-slate-800 dark:text-zinc-200">
+                      Cookie &amp; Privacy Consent
+                    </span>
+                  </div>
+                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:translate-x-1 group-hover:text-[#EAB308] dark:group-hover:text-[#FBBF24] transition-all duration-150" />
+                </button>
               </div>
             </div>
           </div>
 
           {/* Bottom Actions & Credits */}
-          <div className="p-5 sm:p-6 border-t border-[#E5E7EB] dark:border-[#27272A] bg-zinc-50/50 dark:bg-zinc-900/30 space-y-4">
+          <div className="p-5 sm:p-6 border-t border-slate-200 dark:border-zinc-800/80 bg-slate-50/60 dark:bg-zinc-900/40 space-y-4">
             {/* Admin Control Button: ONLY VISIBLE IF role === 'admin' */}
             {session?.role === 'admin' && (
               <button
                 onClick={handleAdminControlClick}
-                className="w-full py-2.5 px-4 rounded-lg bg-[#1E3A8A] hover:bg-[#1e40af] dark:bg-[#3B82F6] dark:hover:bg-[#2563eb] text-white font-medium text-sm transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-sm"
+                className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-b from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-500 dark:to-[#EAB308] dark:hover:from-amber-400 dark:hover:to-amber-500 text-slate-900 font-semibold text-sm transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm border border-amber-400/40 dark:border-amber-300/30 [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.35),0_1px_3px_rgba(0,0,0,0.15)]"
               >
                 <Shield className="w-4 h-4" />
                 <span>Admin Surveillance Control</span>
@@ -259,7 +277,7 @@ export const SideMenu: React.FC = () => {
             <button
               onClick={logout}
               aria-label="Logout"
-              className="w-full py-2.5 px-4 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] hover:bg-red-50 dark:hover:bg-red-950/20 text-zinc-700 hover:text-red-600 dark:text-zinc-300 dark:hover:text-red-400 font-medium text-sm transition-colors cursor-pointer flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-4 rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-[#18181B] hover:bg-red-50 dark:hover:bg-red-950/20 text-slate-700 hover:text-red-600 dark:text-zinc-300 dark:hover:text-red-400 font-medium text-sm transition-colors cursor-pointer flex items-center justify-center gap-2 [box-shadow:0_1px_2px_rgba(0,0,0,0.04)]"
             >
               <LogOut className="w-4 h-4" />
               <span>Terminate Session (Logout)</span>

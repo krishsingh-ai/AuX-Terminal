@@ -81,7 +81,7 @@ export const AuthModal: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.2, ease: snappyEase }}
-          className="relative z-10 w-full max-w-md max-h-[90vh] overflow-y-auto rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#18181B] p-6 sm:p-8 shadow-2xl text-[#111827] dark:text-[#F9FAFB]"
+          className="relative z-10 w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-[#121215] p-6 sm:p-8 shadow-2xl shadow-black/20 dark:shadow-black/60 text-slate-900 dark:text-slate-100"
           role="dialog"
           aria-modal="true"
           aria-label="Institutional Clearance Required"
@@ -113,7 +113,7 @@ export const AuthModal: React.FC = () => {
           </div>
 
           {/* Tab Selector: [User] and [Admin] */}
-          <div className="mt-6 flex border-b border-[#E5E7EB] dark:border-[#27272A]">
+          <div className="mt-6 flex border-b border-slate-200 dark:border-zinc-800/80">
             <button
               type="button"
               onClick={() => handleTabChange('user')}
@@ -121,7 +121,7 @@ export const AuthModal: React.FC = () => {
               className={cn(
                 'flex-1 py-2.5 text-sm font-medium transition-colors relative cursor-pointer',
                 activeTab === 'user'
-                  ? 'text-[#1E3A8A] dark:text-[#3B82F6] font-semibold'
+                  ? 'text-[#EAB308] dark:text-[#FBBF24] font-semibold'
                   : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200'
               )}
             >
@@ -130,7 +130,7 @@ export const AuthModal: React.FC = () => {
                 User
               </span>
               {activeTab === 'user' && (
-                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1E3A8A] dark:bg-[#3B82F6]" />
+                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#EAB308] dark:bg-[#FBBF24]" />
               )}
             </button>
 
@@ -141,7 +141,7 @@ export const AuthModal: React.FC = () => {
               className={cn(
                 'flex-1 py-2.5 text-sm font-medium transition-colors relative cursor-pointer',
                 activeTab === 'admin'
-                  ? 'text-[#1E3A8A] dark:text-[#3B82F6] font-semibold'
+                  ? 'text-[#EAB308] dark:text-[#FBBF24] font-semibold'
                   : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200'
               )}
             >
@@ -150,7 +150,7 @@ export const AuthModal: React.FC = () => {
                 Admin
               </span>
               {activeTab === 'admin' && (
-                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1E3A8A] dark:bg-[#3B82F6]" />
+                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#EAB308] dark:bg-[#FBBF24]" />
               )}
             </button>
           </div>
@@ -178,13 +178,13 @@ export const AuthModal: React.FC = () => {
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Krish Raj"
                     autoFocus
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-zinc-50 dark:bg-[#09090B] text-sm text-[#111827] dark:text-[#F9FAFB] placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] dark:focus:ring-[#3B82F6] transition-all"
+                    className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-zinc-800/80 bg-slate-50 dark:bg-[#09090B] text-sm text-slate-900 dark:text-slate-100 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#EAB308] dark:focus:ring-[#FBBF24] transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 rounded-lg bg-[#1E3A8A] hover:bg-[#1e40af] dark:bg-[#3B82F6] dark:hover:bg-[#2563eb] text-white font-medium text-sm transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-sm"
+                  className="w-full py-2.5 rounded-lg bg-gradient-to-b from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-500 dark:to-[#EAB308] dark:hover:from-amber-400 dark:hover:to-amber-500 text-slate-900 font-semibold text-sm transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm border border-amber-400/40 dark:border-amber-300/30 [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.35),0_1px_3px_rgba(0,0,0,0.15)]"
                 >
                   Initialize Session
                 </button>
@@ -205,7 +205,7 @@ export const AuthModal: React.FC = () => {
                       placeholder="admin"
                       disabled={isLoading}
                       autoFocus
-                      className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-zinc-50 dark:bg-[#09090B] text-sm text-[#111827] dark:text-[#F9FAFB] placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] dark:focus:ring-[#3B82F6] transition-all disabled:opacity-50"
+                      className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-zinc-50 dark:bg-[#09090B] text-sm text-[#111827] dark:text-[#F9FAFB] placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#EAB308] dark:focus:ring-[#FBBF24] transition-all disabled:opacity-50"
                     />
                   </div>
                 </div>
@@ -223,7 +223,7 @@ export const AuthModal: React.FC = () => {
                       onChange={(e) => setAdminPassword(e.target.value)}
                       placeholder="••••••••"
                       disabled={isLoading}
-                      className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-zinc-50 dark:bg-[#09090B] text-sm text-[#111827] dark:text-[#F9FAFB] placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] dark:focus:ring-[#3B82F6] transition-all disabled:opacity-50 font-mono"
+                      className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-[#E5E7EB] dark:border-[#27272A] bg-zinc-50 dark:bg-[#09090B] text-sm text-[#111827] dark:text-[#F9FAFB] placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#EAB308] dark:focus:ring-[#FBBF24] transition-all disabled:opacity-50 font-mono"
                     />
                   </div>
                 </div>
@@ -231,7 +231,7 @@ export const AuthModal: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-2.5 rounded-lg bg-[#1E3A8A] hover:bg-[#1e40af] dark:bg-[#3B82F6] dark:hover:bg-[#2563eb] text-white font-medium text-sm transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-sm disabled:opacity-75 disabled:cursor-not-allowed"
+                  className="w-full py-2.5 rounded-lg bg-gradient-to-b from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-500 dark:to-[#EAB308] dark:hover:from-amber-400 dark:hover:to-amber-500 text-slate-900 font-semibold text-sm transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm border border-amber-400/40 dark:border-amber-300/30 [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.35),0_1px_3px_rgba(0,0,0,0.15)] disabled:opacity-75 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>

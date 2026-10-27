@@ -14,7 +14,7 @@ export const Toast: React.FC = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.95 }}
           transition={{ duration: 0.2, ease: 'easeOut' }}
-          className="fixed top-20 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl border border-[#E5E7EB] dark:border-[#27272A] bg-white dark:bg-[#18181B] text-[#111827] dark:text-[#F9FAFB] shadow-xl text-sm font-medium"
+          className="fixed top-20 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-[#121215] text-slate-900 dark:text-slate-100 shadow-2xl shadow-black/10 dark:shadow-black/50 text-sm font-medium"
         >
           <div className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
             <CheckCircle2 className="w-4 h-4" />

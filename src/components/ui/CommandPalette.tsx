@@ -13,6 +13,8 @@ import {
   Sun,
   Moon,
   LogOut,
+  Shield,
+  RotateCcw,
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../hooks/useTheme';
@@ -29,7 +31,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 }) => {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
-  const { logout, showToast, isCommandOpen, setIsCommandOpen } = useAuth();
+  const { logout, showToast, isCommandOpen, setIsCommandOpen, openConsentBanner, resetConsent } = useAuth();
 
   const isOpen = propIsOpen !== undefined ? propIsOpen : isCommandOpen;
   const handleClose = () => {
@@ -90,7 +92,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="relative z-10 w-full max-w-[92vw] sm:max-w-xl overflow-hidden rounded-xl border border-zinc-700/60 dark:border-zinc-800 bg-[#09090b]/85 backdrop-blur-xl shadow-2xl text-zinc-100"
+            className="relative z-10 w-full max-w-[92vw] sm:max-w-xl overflow-hidden rounded-2xl border border-zinc-700/60 dark:border-zinc-800/80 bg-[#09090b]/90 backdrop-blur-xl shadow-2xl shadow-black/40 text-zinc-100"
             role="dialog"
             aria-modal="true"
             aria-label="Command Palette"
@@ -127,7 +129,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                   <Command.Item
                     value="home navigation dashboard overview terminal"
                     onSelect={() => handleNavigate('/')}
-                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#1E3A8A]/30 data-[selected=true]:text-white hover:bg-[#1E3A8A]/30 hover:text-white"
+                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#EAB308]/25 data-[selected=true]:text-white hover:bg-[#EAB308]/25 hover:text-white"
                   >
                     <div className="flex items-center gap-2.5">
                       <Home className="w-4 h-4 text-zinc-400" />
@@ -139,7 +141,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                   <Command.Item
                     value="intelligence pairwise spread basis volatility analytics"
                     onSelect={() => handleNavigate('/intelligence')}
-                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#1E3A8A]/30 data-[selected=true]:text-white hover:bg-[#1E3A8A]/30 hover:text-white"
+                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#EAB308]/25 data-[selected=true]:text-white hover:bg-[#EAB308]/25 hover:text-white"
                   >
                     <div className="flex items-center gap-2.5">
                       <BarChart3 className="w-4 h-4 text-zinc-400" />
@@ -151,7 +153,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                   <Command.Item
                     value="backtest walk-forward equity alpha simulation"
                     onSelect={() => handleNavigate('/backtest')}
-                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#1E3A8A]/30 data-[selected=true]:text-white hover:bg-[#1E3A8A]/30 hover:text-white"
+                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#EAB308]/25 data-[selected=true]:text-white hover:bg-[#EAB308]/25 hover:text-white"
                   >
                     <div className="flex items-center gap-2.5">
                       <TrendingUp className="w-4 h-4 text-zinc-400" />
@@ -163,7 +165,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                   <Command.Item
                     value="methodology math purity transaction costs zero look-ahead bias"
                     onSelect={() => handleNavigate('/methodology')}
-                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#1E3A8A]/30 data-[selected=true]:text-white hover:bg-[#1E3A8A]/30 hover:text-white"
+                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#EAB308]/25 data-[selected=true]:text-white hover:bg-[#EAB308]/25 hover:text-white"
                   >
                     <div className="flex items-center gap-2.5">
                       <BookOpen className="w-4 h-4 text-zinc-400" />
@@ -175,7 +177,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                   <Command.Item
                     value="about us team hack in hills mission developers"
                     onSelect={() => handleNavigate('/about')}
-                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#1E3A8A]/30 data-[selected=true]:text-white hover:bg-[#1E3A8A]/30 hover:text-white"
+                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#EAB308]/25 data-[selected=true]:text-white hover:bg-[#EAB308]/25 hover:text-white"
                   >
                     <div className="flex items-center gap-2.5">
                       <Users className="w-4 h-4 text-zinc-400" />
@@ -193,7 +195,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                   <Command.Item
                     value="goldm mcx gold mini 100g price market data"
                     onSelect={() => handleMarketLookup('GOLDM')}
-                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#1E3A8A]/30 data-[selected=true]:text-white hover:bg-[#1E3A8A]/30 hover:text-white"
+                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#EAB308]/25 data-[selected=true]:text-white hover:bg-[#EAB308]/25 hover:text-white"
                   >
                     <div className="flex items-center gap-2.5">
                       <Coins className="w-4 h-4 text-amber-400" />
@@ -207,7 +209,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                   <Command.Item
                     value="goldten mcx gold ten 10g price market data"
                     onSelect={() => handleMarketLookup('GOLDTEN')}
-                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#1E3A8A]/30 data-[selected=true]:text-white hover:bg-[#1E3A8A]/30 hover:text-white"
+                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#EAB308]/25 data-[selected=true]:text-white hover:bg-[#EAB308]/25 hover:text-white"
                   >
                     <div className="flex items-center gap-2.5">
                       <Coins className="w-4 h-4 text-amber-400" />
@@ -221,7 +223,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                   <Command.Item
                     value="goldguinea mcx gold guinea 8g price market data"
                     onSelect={() => handleMarketLookup('GOLDGUINEA')}
-                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#1E3A8A]/30 data-[selected=true]:text-white hover:bg-[#1E3A8A]/30 hover:text-white"
+                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#EAB308]/25 data-[selected=true]:text-white hover:bg-[#EAB308]/25 hover:text-white"
                   >
                     <div className="flex items-center gap-2.5">
                       <Coins className="w-4 h-4 text-amber-400" />
@@ -235,7 +237,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                   <Command.Item
                     value="goldpetal mcx gold petal 1g price market data"
                     onSelect={() => handleMarketLookup('GOLDPETAL')}
-                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#1E3A8A]/30 data-[selected=true]:text-white hover:bg-[#1E3A8A]/30 hover:text-white"
+                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#EAB308]/25 data-[selected=true]:text-white hover:bg-[#EAB308]/25 hover:text-white"
                   >
                     <div className="flex items-center gap-2.5">
                       <Coins className="w-4 h-4 text-amber-400" />
@@ -253,15 +255,45 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                   className="[&_[cmdk-group-heading]]:px-2.5 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-zinc-500 mb-1"
                 >
                   <Command.Item
+                    value="cookie privacy consent settings preferences"
+                    onSelect={() => {
+                      handleClose();
+                      openConsentBanner();
+                    }}
+                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#EAB308]/25 data-[selected=true]:text-white hover:bg-[#EAB308]/25 hover:text-white"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Shield className="w-4 h-4 text-amber-400" />
+                      <span>Cookie &amp; Privacy Consent</span>
+                    </div>
+                    <span className="text-[10px] font-mono text-zinc-500">Preferences</span>
+                  </Command.Item>
+
+                  <Command.Item
+                    value="reset clear cookie consent privacy preferences"
+                    onSelect={() => {
+                      handleClose();
+                      resetConsent();
+                    }}
+                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#EAB308]/25 data-[selected=true]:text-white hover:bg-[#EAB308]/25 hover:text-white"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <RotateCcw className="w-4 h-4 text-amber-400" />
+                      <span>Reset Cookie Consent</span>
+                    </div>
+                    <span className="text-[10px] font-mono text-zinc-500">Reset</span>
+                  </Command.Item>
+
+                  <Command.Item
                     value="toggle theme switch light dark mode"
                     onSelect={handleToggleTheme}
-                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#1E3A8A]/30 data-[selected=true]:text-white hover:bg-[#1E3A8A]/30 hover:text-white"
+                    className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-zinc-300 transition-colors cursor-pointer data-[selected=true]:bg-[#EAB308]/25 data-[selected=true]:text-white hover:bg-[#EAB308]/25 hover:text-white"
                   >
                     <div className="flex items-center gap-2.5">
                       {theme === 'dark' ? (
                         <Sun className="w-4 h-4 text-amber-400" />
                       ) : (
-                        <Moon className="w-4 h-4 text-blue-400" />
+                        <Moon className="w-4 h-4 text-amber-400" />
                       )}
                       <span>Toggle Theme</span>
                     </div>

@@ -27,13 +27,13 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantClasses = {
     primary:
-      'bg-[#1E3A8A] text-white hover:bg-[#172554] dark:bg-[#3B82F6] dark:text-white dark:hover:bg-[#2563eb] shadow-sm',
+      'bg-gradient-to-b from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 dark:from-amber-500 dark:to-[#EAB308] dark:hover:from-amber-400 dark:hover:to-amber-500 text-slate-900 font-semibold shadow-sm border border-amber-400/40 dark:border-amber-300/30 [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.35),0_1px_3px_rgba(0,0,0,0.15)]',
     secondary:
-      'bg-[#F9FAFB] text-[#111827] border border-[#E5E7EB] hover:bg-zinc-100 dark:bg-[#18181B] dark:text-[#F9FAFB] dark:border-[#27272A] dark:hover:bg-zinc-800',
+      'bg-white dark:bg-[#18181B] text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-zinc-800/80 hover:bg-slate-50 dark:hover:bg-zinc-800/80 [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.8),0_1px_2px_rgba(0,0,0,0.05)] dark:[box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.06),0_1px_2px_rgba(0,0,0,0.4)]',
     outline:
-      'bg-transparent text-[#111827] dark:text-[#F9FAFB] border border-[#E5E7EB] dark:border-[#27272A] hover:bg-zinc-50 dark:hover:bg-zinc-900',
+      'bg-transparent text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-zinc-800/80 hover:bg-slate-50 dark:hover:bg-zinc-900',
     ghost:
-      'bg-transparent text-zinc-600 dark:text-zinc-400 hover:text-[#111827] dark:hover:text-[#F9FAFB] hover:bg-zinc-100 dark:hover:bg-zinc-800/60',
+      'bg-transparent text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-zinc-800/60',
   };
 
   return (
